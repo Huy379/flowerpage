@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mời cậu</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #inviteBtn {
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ff6699;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+      z-index: 10;
+    }
+
+    #inviteBtn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Lớp nền fade-in */
+    .fade-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('2.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Nút nhỏ góc phải */
+    #cornerBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 18px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff99cc;
+      color: white;
+      cursor: pointer;
+      display: none;
+      z-index: 2;
+      transition: transform 0.3s;
+    }
+
+    #cornerBtn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Popup hiển thị lời nhắn */
+    #chatPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 3;
+      padding: 20px;
+      text-align: center;
+      animation: fadeInPopup 0.5s ease;
+    }
+
+    @keyframes fadeInPopup {
+      from { opacity: 0; transform: translate(-50%, -40%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    #chatPopup p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.5;
+      min-height: 60px; /* giữ chỗ cho text khi đang gõ */
+    }
+
+    #closeChat {
+      margin-top: 15px;
+      padding: 8px 15px;
+      background: #ff6699;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #closeChat:hover {
+      background: #ff3366;
+    }
+  </style>
+</head>
+<body>
+  <button id="inviteBtn">Mời cậu</button>
+  <button id="cornerBtn">Bấm vào đây đi cậu</button>
+
+  <!-- Popup hiện lời nhắn -->
+  <div id="chatPopup">
+    <p id="message"></p>
+    <button id="closeChat">Đóng</button>
+  </div>
+
+  <script>
+    const inviteBtn = document.getElementById("inviteBtn");
+    const cornerBtn = document.getElementById("cornerBtn");
+    const chatPopup = document.getElementById("chatPopup");
+    const closeChat = document.getElementById("closeChat");
+    const messageEl = document.getElementById("message");
+
+    const messageText = "💌 Gửi tặng cậu hoa lưu ly không vì dịp gì cả, hy vọng là cậu sẽ thích. Tớ vẫn luôn ở đây cậu nhé, cứ quay đầu lại là thấy tớ thôi  🌸";
+
+    inviteBtn.addEventListener("click", function() {
+      const bg = document.createElement("div");
+      bg.classList.add("fade-bg");
+      document.body.appendChild(bg);
+      inviteBtn.style.display = "none";
+      setTimeout(() => {
+        cornerBtn.style.display = "block";
+      }, 2000);
+    });
+
+    cornerBtn.addEventListener("click", function() {
+      chatPopup.style.display = "block";
+      messageEl.textContent = "";
+      typeWriter(messageText, messageEl, 50);
+    });
+
+    closeChat.addEventListener("click", function() {
+      chatPopup.style.display = "none";
+    });
+
+    // Hàm gõ chữ
+    function typeWriter(text, element, speed) {
+      let i = 0;
+      function typing() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, speed);
+        }
+      }
+      typing();
+    }
+  </script>
+</body>
+</html>
